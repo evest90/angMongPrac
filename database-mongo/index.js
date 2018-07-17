@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/test');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/test', {useMongoClient:true});
 
 var db = mongoose.connection;
 
@@ -12,11 +13,14 @@ db.once('open', function() {
 });
 
 var itemSchema = mongoose.Schema({
-  quantity: Number,
-  description: String
+  todo: String,
 });
 
 var Item = mongoose.model('Item', itemSchema);
+var todo = new Item();
+// todo.save(function(err) {
+//   if (err) return handleError(err);
+// })
 
 var selectAll = function(callback) {
   Item.find({}, function(err, items) {
@@ -28,4 +32,23 @@ var selectAll = function(callback) {
   });
 };
 
+const save = (todo, callback) => {
+  todo = new Item({todo: todo});
+  todo.save();
+}
+
+// var addToDo = function(todo, callback) {
+//   new Item()
+//   Item.save({todo:todo},function(err, items) {
+//     if(err) {
+//       callback(err, null);
+//     } else {
+//       callback(null, items);
+//     }
+//   })
+// }
+
 module.exports.selectAll = selectAll;
+module.exports.Item = Item;
+module.exports.save = save;
+// module.exports.addToDo = addToDo;
