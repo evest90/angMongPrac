@@ -21,15 +21,13 @@ app.get('/items', function (req, res) {
 });
 
 app.post('/sendToDo', function(req, res) {
-  items.save(req.body.todo, function(err, data) {
-    if (err) {
-      res.sendStatus(500);
-    } else {
-      res.json(data);
-      res.end('todo saved')
-      console.log('Todo added to database!')
-    }
-  })
+  items.addToDo(req.body.todo)
+  res.send(req.body.todo);
+})
+
+app.post('/deleteToDo', function(req, res) {
+  items.deleteToDo(req.body.todo);
+  res.sendStatus(201);
 })
 
 app.listen(3000, function() {

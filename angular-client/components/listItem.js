@@ -3,6 +3,6 @@ angular.module('app')
   bindings: {
     item: '<',
   },
-  controller: function() {},
+  controller: function(){},
   templateUrl: '/templates/list-item.html'
 });

@@ -1,10 +1,12 @@
 <div>
   <h4> List Component </h4>
   There are {{$ctrl.items.length}} items.
-  <list-item ng-repeat="item in $ctrl.items" item=item />
+  <list-item ng-repeat="item in $ctrl.items track by $index" item=item type="checkbox" ng-model="$ctrl.item.todo"/>
 </div>
-<div ng-controller="AppCtrl">
-  <form>
-    <input type="text"/>
+<div>
+  <form ng-submit="$ctrl.saveToDo">
+   
+    <input type="text" ng-model="$ctrl.item.todo"/>
+    <input type="submit" ng-click="$ctrl.handleSubmit()" value="Submit ToDo" />
   </form>
 </div>

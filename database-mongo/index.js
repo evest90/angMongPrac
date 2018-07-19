@@ -17,10 +17,6 @@ var itemSchema = mongoose.Schema({
 });
 
 var Item = mongoose.model('Item', itemSchema);
-var todo = new Item();
-// todo.save(function(err) {
-//   if (err) return handleError(err);
-// })
 
 var selectAll = function(callback) {
   Item.find({}, function(err, items) {
@@ -32,23 +28,29 @@ var selectAll = function(callback) {
   });
 };
 
-const save = (todo, callback) => {
-  todo = new Item({todo: todo});
-  todo.save();
+
+var addToDo = function(todo) {
+  var item = new Item({todo:todo})
+  item.save()
+  .then((items) => {
+    console.log(items);
+  })
+  .catch(err => {
+    console.log(err);
+  })
 }
 
-// var addToDo = function(todo, callback) {
-//   new Item()
-//   Item.save({todo:todo},function(err, items) {
-//     if(err) {
-//       callback(err, null);
-//     } else {
-//       callback(null, items);
-//     }
-//   })
-// }
+var deleteToDo = function(todo) {
+  Item.deleteOne({todo: todo})
+  .then(() => {
+    console.log('todo', todo);
+  })
+  .catch(err => {
+    console.log('err', err);
+  })
+}
 
 module.exports.selectAll = selectAll;
 module.exports.Item = Item;
-module.exports.save = save;
-// module.exports.addToDo = addToDo;
+module.exports.addToDo = addToDo;
+module.exports.deleteToDo = deleteToDo
